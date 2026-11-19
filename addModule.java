@@ -96,3 +96,6 @@ public class addModule {
         }
     }
 }
+
+void main() {
+}
