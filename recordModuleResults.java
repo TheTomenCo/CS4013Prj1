@@ -86,13 +86,7 @@ public class recordModuleResults {
                     System.out.println("Grade: " + recordedGrades[i][j]);
                     System.out.println("Grade successfully recorded.");
 
-                } else {
-
-                    //no grade given
-                    recordedGrades[i][j] = "Not recorded";
-
-                    System.out.println("No grade available for this module.");
-                }
+                } 
             }
 
             System.out.println();
