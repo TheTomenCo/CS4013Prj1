@@ -19,6 +19,14 @@ public class addModule {
             "Computing System Organisation"
     };
 
+    String[] systemsSemesterThree = {
+            "Operating Systems",
+            "Software Testing and Inspection",
+            "Database Systems",
+            "Object Oriented Development",
+            "Software Requirements and Modelling "
+    };
+
     //accounting
     String[] accountingSemesterOne = {
             "Financial Information Analysis",
@@ -26,10 +34,6 @@ public class addModule {
             "Taxation Theory and Practice",
             "Finance",
             "Capital Taxation"
-    };
-
-    String[] accountingSemesterTwo = {
-            "Cooperative Education"
     };
 
 
@@ -51,15 +55,15 @@ public class addModule {
             if (program.equalsIgnoreCase("Systems")) {
 
                 semesterTwo = Arrays.copyOf(
-                        systemsSemesterTwo,
-                        systemsSemesterTwo.length
+                        systemsSemesterThree,
+                        systemsSemesterThree.length
                 );
 
             } else if (program.equalsIgnoreCase("Accounting")) {
 
                 semesterTwo = Arrays.copyOf(
-                        accountingSemesterTwo,
-                        accountingSemesterTwo.length
+                        accountingSemesterOne,
+                        accountingSemesterOne.length
                 );
 
             } else {
