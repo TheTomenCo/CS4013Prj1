@@ -1,12 +1,9 @@
 import java.util.Arrays;
+import public Students student;
+import public Programme programmeName;
 
 public class addModule {
-
-    // names of these will probably need to change depending on what Áine names her files
-    private Students student;
-    private Program program;
-
-    //systems classes
+    //systems
     String[] systemsSemesterOne = {
             "Introduction to Programming",
             "Discrete Mathematics",
@@ -23,7 +20,8 @@ public class addModule {
             "Computing System Organisation"
     };
 
-    //accounting classes
+
+    //accounting
     String[] accountingSemesterOne = {
             "Financial Information Analysis",
             "Corporate Finance",
@@ -37,47 +35,60 @@ public class addModule {
     };
 
 
-    public void addModules(Students[] students) {
+    public void addModules() {
 
-        //checking how many students are in the array
+        //reading students
+        String[][] students = Students.students;
+
+        //check if there are students in the array
         if (students == null || students.length == 0) {
             System.out.println("No students found.");
             return;
         }
 
-        //go through all the students
+        //if there are students, it starts filtering through them
         for (int i = 0; i < students.length; i++) {
 
-            student = students[i];
+            //read the details
+            String studentID = students[i][0];
+            String studentName = students[i][1];
 
-            //get the students ID number
-            int studentID = student.getStudentID();
+            //get their program
+            String program = Program.getProgram(studentID);
 
-            //calling the function to get their program
-            program = student.getProgram();
-
-            String[] semesterOne;
             String[] semesterTwo;
 
-            if (program.toString().equalsIgnoreCase("Systems")) {
-                // Systems
-                semesterTwo = systemsSemesterTwo;
+            // SYSTEMS
+            if (program.equalsIgnoreCase("Systems")) {
 
-            } else (program.toString().equalsIgnoreCase("Accounting")) {
-                // accounting
-                semesterTwo = accountingSemesterTwo;
+                semesterTwo = Arrays.copyOf(
+                        systemsSemesterTwo,
+                        systemsSemesterTwo.length
+                );
 
             }
 
-            //attaching the modules for that semester
-            student.setModules(semesterTwo);
+            // ACCOUNTING
+            else if (program.equalsIgnoreCase("Accounting")) {
 
+                semesterTwo = Arrays.copyOf(
+                        accountingSemesterTwo,
+                        accountingSemesterTwo.length
+                );
 
-            //printing their modules
+            }
+
+            else {
+                System.out.println("No programme found for " + studentID);
+                continue;
+            }
+
+            // Display assigned Semester 2 modules
             System.out.println("Student ID: " + studentID);
-            System.out.println("Modules:");
+            System.out.println("Student Name: " + studentName);
+            System.out.println("Semester 2 Modules:");
 
-            for (String module : allModules) {
+            for (String module : semesterTwo) {
                 System.out.println(module);
             }
 
