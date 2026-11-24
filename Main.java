@@ -1,7 +1,7 @@
 import java.util.Arrays;
 
 public class Main {
-    static void main (String[] args){
+    public static void main (String[] args){
         String[] programmeName = {
                 "Bachelors Of Computer Science",
                 "Bachelors Of Accounting"
@@ -142,14 +142,8 @@ public class Main {
     }
 }
 
-
 class recordModuleResults {
-
-    //grades are hard coded
-    //who each student is, is based off the order of students in the Students.java file.
-    //I'm not pulling the names out of thin air trust
     private static final String[][] grades = {
-
             //Jane Doe
             {"78", "72", "56", "45", "66"},
 
@@ -162,7 +156,6 @@ class recordModuleResults {
             // Bryan Hodukavich
             {"45", "43", "36", "38", "35"}
     };
-
 
     public String[][] addGrades(String[][] students, String[][] modulesByStudent) {
 
@@ -218,36 +211,22 @@ class recordModuleResults {
             //make somewhere to store the grades
             recordedGrades[i] = new String[modules.length];
 
-            //checking if there are still classes to display
-            int classes = 0;
+            //read the modules
+            for (int j = 0; j < modules.length; j++) {
 
-            while (classes < modules.length) {
-
-                //print class
-                System.out.println("\nModule: " + modules[classes]);
+                System.out.println("\nModule: " + modules[j]);
 
                 //check if a grade exists
-                if (studentGrades != null && classes < studentGrades.length) {
+                if (studentGrades != null && j < studentGrades.length) {
 
                     //store the grade
-                    recordedGrades[i][classes] = studentGrades[classes];
+                    recordedGrades[i][j] = studentGrades[j];
 
-                    //print grades
-                    System.out.println("Grade: " + recordedGrades[i][classes]);
+                    System.out.println("Grade: " + recordedGrades[i][j]);
                     System.out.println("Grade successfully recorded.");
 
-                } else {
-                    System.out.println("No grade available.");
                 }
-
-                classes++;
             }
-
-            // Print QCA
-            // QCA calculation goes here
-
-            // If semester = 2
-            // Print overall QCA goes here
 
             System.out.println();
         }
