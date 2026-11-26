@@ -1,11 +1,14 @@
+
 import java.util.Arrays;
 
 public class Main {
-    public static void main (String[] args){
+    public static void main(String[] args) {
+
         String[] programmeName = {
                 "Bachelors Of Computer Science",
                 "Bachelors Of Accounting"
         };
+
         for (String programme : programmeName) {
             System.out.println(programme);
         }
@@ -21,8 +24,7 @@ public class Main {
             System.out.println(student[0] + " - " + student[1]);
         }
 
-
-        //systems modules
+        // Systems modules
         String[] systemsSemesterOne = {
                 "Introduction to Programming",
                 "Discrete Mathematics",
@@ -47,7 +49,7 @@ public class Main {
                 "Software Requirements and Modelling "
         };
 
-        //accounting modules
+        // Accounting modules
         String[] accountingSemesterOne = {
                 "Financial Information Analysis",
                 "Corporate Finance",
@@ -78,10 +80,11 @@ public class Main {
         );
     }
 
-    public static String[][] addModules(String[][] students,
-                                        String[] studentProgrammes,
-                                        String[] systemsSemesterThree,
-                                        String[] accountingSemesterOne) {
+    public static String[][] addModules(
+            String[][] students,
+            String[] studentProgrammes,
+            String[] systemsSemesterThree,
+            String[] accountingSemesterOne) {
 
         if (students == null || students.length == 0) {
             System.out.println("No students found.");
@@ -90,6 +93,7 @@ public class Main {
 
         if (studentProgrammes == null ||
                 studentProgrammes.length < students.length) {
+
             System.out.println("Student programme information is incomplete.");
             return new String[0][];
         }
@@ -98,20 +102,27 @@ public class Main {
 
         for (int i = 0; i < students.length; i++) {
 
+            if (students[i] == null || students[i].length < 2) {
+                System.out.println("Invalid student record.");
+                modulesByStudent[i] = new String[0];
+                continue;
+            }
+
             String studentID = students[i][0];
             String studentName = students[i][1];
             String program = studentProgrammes[i];
 
             String[] modules;
 
-            if (program.equalsIgnoreCase("Systems")) {
+            if (program != null && program.equalsIgnoreCase("Systems")) {
 
                 modules = Arrays.copyOf(
                         systemsSemesterThree,
                         systemsSemesterThree.length
                 );
 
-            } else if (program.equalsIgnoreCase("Accounting")) {
+            } else if (program != null &&
+                    program.equalsIgnoreCase("Accounting")) {
 
                 modules = Arrays.copyOf(
                         accountingSemesterOne,
@@ -126,7 +137,7 @@ public class Main {
 
             modulesByStudent[i] = modules;
 
-            System.out.println("Student Name: " + studentName);
+            System.out.println("\nStudent Name: " + studentName);
             System.out.println("Student ID: " + studentID);
             System.out.println("Programme: " + program);
             System.out.println("Modules:");
@@ -142,9 +153,12 @@ public class Main {
     }
 }
 
+
 class recordModuleResults {
+
     private static final String[][] grades = {
-            //Jane Doe
+
+            // Jane Doe
             {"78", "72", "56", "45", "66"},
 
             // Alice Liddle
@@ -157,15 +171,17 @@ class recordModuleResults {
             {"45", "43", "36", "38", "35"}
     };
 
-    public String[][] addGrades(String[][] students, String[][] modulesByStudent) {
+    public String[][] addGrades(
+            String[][] students,
+            String[][] modulesByStudent) {
 
-        //check that you have all the info - student name, and their modules
+        // Check that all required information exists
         if (students == null || modulesByStudent == null) {
             System.out.println("Student or module information is missing.");
             return new String[0][];
         }
 
-        //checking all arrays have the same number of entries
+        // Check that all arrays have the same number of entries
         if (students.length != modulesByStudent.length ||
                 students.length != grades.length) {
 
@@ -173,65 +189,200 @@ class recordModuleResults {
             return new String[0][];
         }
 
-        //making an array to store the grades
+        // Make an array to store the grades
         String[][] recordedGrades = new String[students.length][];
 
-        //read each student
+        // Arrays to store individual student QCA and awards
+        double[] studentQCA = new double[students.length];
+        String[] studentAwards = new String[students.length];
+
+        // Read each student
         for (int i = 0; i < students.length; i++) {
 
             // Check student information
             if (students[i] == null || students[i].length < 2) {
                 System.out.println("Invalid student record.");
                 recordedGrades[i] = new String[0];
+                studentAwards[i] = "No award";
                 continue;
             }
 
             String studentID = students[i][0];
             String studentName = students[i][1];
 
-            //printing the student ID and name \n pushes it onto a new line
             System.out.println("\n--------------------------------");
             System.out.println("Student ID: " + studentID);
             System.out.println("Student Name: " + studentName);
             System.out.println("--------------------------------");
 
-            //get the classes
+            // Get the modules
             String[] modules = modulesByStudent[i];
 
-            //get the grades
+            // Get the grades
             String[] studentGrades = grades[i];
 
-            //check that the student has classes assigned
+            // Check that the student has modules assigned
             if (modules == null || modules.length == 0) {
                 System.out.println("No modules found for this student.");
                 recordedGrades[i] = new String[0];
+                studentAwards[i] = "No award";
                 continue;
             }
 
-            //make somewhere to store the grades
+            // Check that the number of modules matches the grades
+            if (modules.length != studentGrades.length) {
+                System.out.println("Module and grade records do not match.");
+                recordedGrades[i] = new String[0];
+                studentAwards[i] = "No award";
+                continue;
+            }
+
+            // Make somewhere to store the grades
             recordedGrades[i] = new String[modules.length];
 
-            //read the modules
+            // Initialise QCA
+            double QCASEM = 0.0;
+
+            // Read the modules
             for (int j = 0; j < modules.length; j++) {
 
                 System.out.println("\nModule: " + modules[j]);
 
-                //check if a grade exists
-                if (studentGrades != null && j < studentGrades.length) {
+                // Check if a grade exists
+                if (studentGrades[j] != null) {
 
-                    //store the grade
+                    // Store the grade
                     recordedGrades[i][j] = studentGrades[j];
 
-                    System.out.println("Grade: " + recordedGrades[i][j]);
+                    int grade = Integer.parseInt(studentGrades[j]);
+
+                    System.out.println("Grade: " + recordedGrades[i][j] + "%");
                     System.out.println("Grade successfully recorded.");
 
+                    // Check the grade and calculate QCA points
+
+                    // Checks if it's an A1
+                    if (grade >= 80) {
+                        System.out.println("The student got an A1");
+                        QCASEM = QCASEM + 4.0;
+                    }
+
+                    // Checks if it's an A2
+                    else if (grade >= 72) {
+                        System.out.println("The student got an A2");
+                        QCASEM = QCASEM + 3.6;
+                    }
+
+                    // Checks if it's a B1
+                    else if (grade >= 64) {
+                        System.out.println("The student got a B1");
+                        QCASEM = QCASEM + 3.2;
+                    }
+
+                    // Checks if it's a B2
+                    else if (grade >= 60) {
+                        System.out.println("The student got a B2");
+                        QCASEM = QCASEM + 3.0;
+                    }
+
+                    // Checks if it's a B3
+                    else if (grade >= 56) {
+                        System.out.println("The student got a B3");
+                        QCASEM = QCASEM + 2.8;
+                    }
+
+                    // Checks if it's a C1
+                    else if (grade >= 52) {
+                        System.out.println("The student got a C1");
+                        QCASEM = QCASEM + 2.6;
+                    }
+
+                    // Checks if it's a C2
+                    else if (grade >= 48) {
+                        System.out.println("The student got a C2");
+                        QCASEM = QCASEM + 2.4;
+                    }
+
+                    // Checks if it's a C3
+                    else if (grade >= 40) {
+                        System.out.println("The student got a C3");
+                        QCASEM = QCASEM + 2.0;
+                    }
+
+                    // Checks if it's a D1
+                    else if (grade >= 35) {
+                        System.out.println("The student got a D1");
+                        QCASEM = QCASEM + 1.6;
+                    }
+
+                    // Checks if it's an F
+                    else {
+                        System.out.println("You failed");
+                    }
                 }
             }
 
-            System.out.println();
+            // Calculate QCA and determine award together
+            QCASEM = QCASEM / modules.length;
+
+            String award;
+
+            if (QCASEM >= 3.4) {
+                award = "First class honours";
+            } else if (QCASEM >= 3.0) {
+                award = "2.1 Second grade honours";
+            } else if (QCASEM >= 2.6) {
+                award = "2.2 Second grade honours";
+            } else if (QCASEM >= 2.0) {
+                award = "Third honours";
+            } else {
+                award = "You failed";
+            }
+
+            System.out.println("You got a " + QCASEM +
+                    " so you gained a " + award);
+
+            // Store QCA and award for the transcript
+            studentQCA[i] = QCASEM;
+            studentAwards[i] = award;
+
         }
 
-        //return the grades
+        // Generate individual student transcripts
+        for (int i = 0; i < students.length; i++) {
+
+            if (students[i] == null || students[i].length < 2) {
+                continue;
+            }
+
+            System.out.println("\n========================================");
+            System.out.println("             STUDENT TRANSCRIPT");
+            System.out.println("========================================");
+
+            System.out.println("Student Name: " + students[i][1]);
+            System.out.println("Student ID: " + students[i][0]);
+
+            System.out.println("----------------------------------------");
+            System.out.println("                  GRADES");
+            System.out.println("----------------------------------------");
+
+            if (recordedGrades[i] != null) {
+
+                for (int j = 0; j < modulesByStudent[i].length; j++) {
+
+                    System.out.println("Module: " + modulesByStudent[i][j]);
+                    System.out.println("Grade: " + recordedGrades[i][j] + "%");
+                    System.out.println();
+                }
+            }
+
+            System.out.println("----------------------------------------");
+            System.out.println("Overall QCA: " + studentQCA[i]);
+            System.out.println("Award: " + studentAwards[i]);
+            System.out.println("========================================");
+        }
+
+        // Return the recorded grades
         return recordedGrades;
     }
 }
